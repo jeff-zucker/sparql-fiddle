@@ -1,5 +1,5 @@
 # sparql-fiddle
-## run SPARQL queries and stored procedures online or off
+**run SPARQL queries and stored procedures online or off**
 
 The online app is fairly self-explanatory, so please take a look at it
 to see the general operation.  () Below is an explanation of the library
@@ -31,7 +31,7 @@ query or a URL pointing to such a string.
 The format for results is stored in the "wanted" key and may be one of "HTML",  "Text", "Array", "Hash", "Value"
 
 An example:
-
+      ```javascript
       const sf = require('sparql-fiddle') // or browser equivalent
       let fiddle = {
           data  : "http://example.com/myRDF",
@@ -54,10 +54,11 @@ and format or process them any way you'd like by iterating over the structure.
 The "Array" format returns an array of hashes (associative arrays). Given 
 "SELECT ?name ?addOn ...", the results would be something like
 
-  [ 
-     {"name":"Alu Gobi","addOn":"chutney" },
-     {"name":"Reuben Sandwich","addOn":"dill pickle" }
-  ]
+      ```javascript
+      [ 
+         {"name":"Alu Gobi","addOn":"chutney" },
+         {"name":"Reuben Sandwich","addOn":"dill pickle" }
+      ]
 
 ## Results as a Hash
 
@@ -65,11 +66,12 @@ The Hash format returns a hash of hashes (associateve arrays). You need to
 specify a key before calling run().  If you specify fiddle.key="name" 
 the results would be something like this:
 
-  { 
-     "Alu Gobi"        : {"name":"Alu Gobi","addOn":"chutney" },
-     "Reuben Sandwich" : {"name":"Reuben Sandwich","addOn":"dill pickle" }
-  }
- 
+      ```javascript
+      { 
+         "Alu Gobi"        : {"name":"Alu Gobi","addOn":"chutney" },
+         "Reuben Sandwich" : {"name":"Reuben Sandwich","addOn":"dill pickle" }
+      }
+
 The "Hash" format makes it very easy to read a Turtle config file into a
 hash object in a script.
 
@@ -80,15 +82,16 @@ query that returns a single field in a single row.  If more than one row
 is retrieved, only the first will be examined.  If more than one field is
 retrieved, an arbitrary key will be returned.   Here's an example:
 
-    const sf = require('sparql-fiddle')
-    let fiddle = {
-        data:`@prefix : <http://schema.org/>. <> :name "hello world".`,
-       query:`PREFIX : <http://schema.org/> SELECT ?y WHERE {?x :name ?y .}`,
-      wanted:'Value'
-    }
-    sf.run(fiddle).then( res =>{ console.log(res) }, err => console.log(err) )
-    //
-    //  output : hello world
+      ```javascript
+      const sf = require('sparql-fiddle')
+      let fiddle = {
+          data:`@prefix : <http://schema.org/>. <> :name "hello world".`,
+         query:`PREFIX : <http://schema.org/> SELECT ?y WHERE {?x :name ?y .}`,
+        wanted:'Value'
+      }
+      sf.run(fiddle).then( res =>{ console.log(res) }, err => console.log(err) )
+      //
+      //  output : hello world
 
 ## Default Results Format
 
