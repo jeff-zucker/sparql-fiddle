@@ -1,0 +1,19 @@
+{
+  "name": "sparql-fiddle",
+  "version": "0.1.0",
+  "description": "run SPARQL queries online and off using rdflib.js",
+  "main": "sparql-fiddle.js",
+  "dependencies": {
+    "rdflib": "^0.19.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "solid",
+    "linked-data"
+  ],
+  "author": "Jeff Zucker",
+  "license": "MIT"
+}

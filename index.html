@@ -1,0 +1,131 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width">
+    <title> SPARQL Fiddle </title>
+    <script src="./node_modules/rdflib/dist/rdflib.min.js"></script>
+    <script src="./sparql-examples.js"></script>
+    <script src="./sparql-fiddle.js"></script>
+<script>
+    let sf = new SparqlFiddle()
+    let run = function(){
+        document.getElementById('results').innerHTML = ""
+        let endpointUrl = "http://example.org/inMemory"
+        let rdfStr = document.getElementById('turtle').value
+        let sparqlStr = document.getElementById('sparql').value
+        sparqlStr = sparqlStr.replace( 
+           /PREFIX\s*:\s*<#>/i,"PREFIX : <"+endpointUrl+"#>" 
+        )
+        let fiddle = {
+            data  : rdfStr,
+            query : sparqlStr,
+           wanted : "HTML"
+       
+        }
+        sf.run(fiddle).then( results => {
+            document.getElementById('results').innerHTML = results
+        }, err => console.log(err) )
+    }
+    load = function(type){
+        let url = document.getElementById(type+"Url").value
+        sf.loadFromUrl(url).then( response => {
+            document.getElementById(type).value=response.responseText
+        }, err =>  console.log(err) )
+    }
+    show_example = function(){
+        let id = document.getElementById("exampleSelect").value
+        if(!id || id.match(/examples/)) return;
+        document.getElementById("turtle").value=sparqlExamples[id].turtle
+        document.getElementById("sparql").value=sparqlExamples[id].sparql
+        document.getElementById("results").innerHTML=""
+    }
+</script>
+</head></body>
+<div id="top">
+<div id="top-left">
+  RDF format : 
+   <input onclick="javascript:sf.setRdfType('text/turtle')" type="radio" name="format" value="none" checked="true"> Turtle
+   <input onclick="javascript:sf.setRdfType('text/n3')"type="radio" name="format" value="named"> N3
+   <input onclick="javascript:sf.setRdfType('application/rdf+xml')" type="radio" name="format" value="all"> RDF/XML
+</div>
+<div id="top-right">
+        <button id="runButton" onclick="javascript:run()">run</button>
+        <button onclick="javascript:location.reload()">clear</button>
+        <select id="exampleSelect" onchange="javascript:show_example()">
+            <option>examples</option>
+            <option>hello world</option>
+            <option>find tracks in a playlist</option>
+            <option>show all triples</option>
+            <option>no ontology</option>
+            <option>a SKOS ConceptScheme</option>
+            <option></option>
+        </select>
+</div> <!-- top-right -->
+</div> <!-- top -->
+<div id="left">
+    <div class="heading">
+        <b>Endpoint</b> : enter RDF text or <input id="turtleUrl" placeholder="URL of a Solid RDF File"><button onclick="javascript:load('turtle')">import</button>
+    </div>
+    <textarea id="turtle"></textarea>
+</div>
+<div id="right">
+    <div class="heading">
+        <b>Query</b> : enter SPARQL text or <input id="sparqlUrl" placeholder="URL of a Solid SPARQL File"><button onclick="javascript:load('sparql')">import</button>
+    </div>
+    <textarea id="sparql"></textarea>
+</div>
+    <pre id="results"></pre>
+<style>
+#turtleUrl, #sparqlUrl {
+   width:22vw;
+}
+#top {
+    margin-left:1em;
+}
+#top-right, #top-left, #top-center {
+    display:inline-block;
+    margin-right:3em;
+}
+#right,#left {
+    float:left;
+    width:600px;
+    max-width:45vw;
+    margin:1em;
+    margin-bottom:0;
+}
+#results {
+    clear:both;
+}
+#turtle, #sparql {
+    height:240px;
+    max-height:45vw;
+    width:640px;
+    max-width:46vw;
+    border:1px solid turquoise;
+    border-radius:4px;
+    padding:0.25em;
+    resize:none;
+    border-top:none;
+}
+.heading {
+    width:640px;
+    max-width:46vw;
+    background-color:#ddd;
+    padding:0.25em;
+    border:1px solid turquoise;
+    border-radius:4px;
+    border-bottom:none;
+}
+#results {
+    padding:1em;
+    padding-top:0;
+}
+select {
+    padding:0.11em;
+    width:18em;
+}
+td,th {
+    padding:0.5em;
+    border:1px solid black;
+}
+th {
+    background-color:#ddd;
+}
+</style>

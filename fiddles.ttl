@@ -1,0 +1,84 @@
+@prefix : <#>.
+@prefix schema: <http://schema.org/>.
+
+<> a :FiddleLibrary.
+[] 
+  a :Fiddle;
+  :name "hello world";
+  :dataFormat "text/turtle";
+  :data """@prefix s: <http://schema.org/>. <> s:name "hello world".""";
+  :query "PREFIX s: <http://schema.org/> SELECT ?msg WHERE {?x s:name ?msg.}"
+.
+[] 
+  a :Fiddle;
+  :name "show all examples";
+  :dataFormat "text/turtle";
+  :data "http://localhost/solid/sparql-fiddle/fiddles.ttl";
+  :query """
+    PREFIX : <http://example.org/inMemory#>
+    SELECT ?name ?format ?data ?query WHERE { 
+        ?x :name ?name; :dataFormat ?format; :data ?data; :query ?query . 
+    }
+         """
+.
+[] 
+  a :Fiddle;
+  :name "show all triples";
+  :query "SELECT * WHERE { ?subject ?predicate ?object . }";
+  :dataFormat "text/turtle";
+  :data """
+@prefix s: <http://schema.org/>. 
+<> a s:MusicPlaylist; 
+  s:name "Jazz"; 
+  s:track
+    [s:name "A Love Supreme"; s:creator "John Coltrane"],
+    [s:name "Take Five"; s:creator "Dave Brubeck"]
+.
+        """
+.
+[] 
+  a :Fiddle;
+  :name "no ontology";
+  :dataFormat "text/turtle";
+  :data """
+@prefix : <#>. 
+<> :isA :Foo; :hasBar 
+    [:madeUpProperty "Look, Ma - no ontology!"]
+.
+        """;
+  :query """
+# this prefix declaration is invalid SPARQL but
+# lets us refer to the in-memory RDF and work without
+# an ontology - bad practice in general but good for
+# rapid prototyping.
+
+PREFIX : <#>
+SELECT ?message WHERE {
+    ?thing :isA :Foo; :hasBar ?x .
+    ?x :madeUpProperty ?message .
+}
+        """
+.
+[] 
+  a :Fiddle;
+  :name "find tracks in a playlist";
+  :dataFormat "text/turtle";
+  :data """
+@prefix s: <http://schema.org/>. 
+<> a s:MusicPlaylist; 
+  s:name "Jazz"; 
+  s:track
+    [s:name "A Love Supreme"; s:creator "John Coltrane"],
+    [s:name "Take Five"; s:creator "Dave Brubeck"]
+.
+        """;
+  :query """
+PREFIX s: <http://schema.org/>
+SELECT ?artist ?trackName WHERE { 
+    ?x s:track ?y .
+    ?y s:name ?trackName; s:creator ?artist .
+}
+        """;
+.
+
+
