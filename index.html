@@ -5,6 +5,11 @@
     <script src="./sparql-fiddle.js"></script>
 <script>
     let sf = new SparqlFiddle()
+    let sparqlExamples = {}
+    let fiddleLibrary="http://localhost/solid/sparql-fiddle/fiddles.ttl"
+    sf.loadLibrary(fiddleLibrary).then( results => {
+        sparqlExamples = results
+    }, err => console.log(err) )
     let run = function(){
         document.getElementById('results').innerHTML = ""
         let endpointUrl = "http://example.org/inMemory"
@@ -32,8 +37,8 @@
     show_example = function(){
         let id = document.getElementById("exampleSelect").value
         if(!id || id.match(/examples/)) return;
-        document.getElementById("turtle").value=sparqlExamples[id].turtle
-        document.getElementById("sparql").value=sparqlExamples[id].sparql
+        document.getElementById("turtle").value=sparqlExamples[id].data
+        document.getElementById("sparql").value=sparqlExamples[id].query
         document.getElementById("results").innerHTML=""
     }
 </script>

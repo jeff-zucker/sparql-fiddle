@@ -173,6 +173,24 @@ let SparqlFiddle = function(){
             }, err => reject(err) )
         }, err => reject(err) )
     }
+    this.loadLibrary = function( fiddleLibrary){
+        return new Promise((resolve, reject)=>{
+            let fiddle = {
+              wanted : "Hash",
+                 key : "name",
+                data : fiddleLibrary,
+                query :`
+    PREFIX : <http://example.org/inMemory#>
+    SELECT ?name ?type ?data ?query WHERE { 
+        ?x :name ?name :dataFormat ?type; :data ?data; :query ?query . 
+    }
+`,
+            }
+            self.run( fiddle ).then( results => {
+                resolve(results)
+            }, err => reject(err) )
+        }, err => reject(err) )
+    }
     this.run = function(fiddle) { 
       return new Promise((resolve, reject)=>{
         fiddle.store = (fiddle.data.length>0)
