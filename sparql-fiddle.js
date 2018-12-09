@@ -1,19 +1,5 @@
 if (typeof(module)!="undefined" && typeof($rdf)==="undefined")  $rdf = require('rdflib')
 
-/*
-{
-  data       : rdfStrOrUrl,
-  query      : sparqlStrOrUrl,
-  rdftype    : "text/turtle" (or other content-type parseable with rdflib.js),
-  results    : "Hash" or "Array" or "HTML" or "Text"
-  rowHandler : a function to handle rows of data
-}
-The first two are required, the next three may be omitted in which case their
-defaults are used:
-  rdftype defaults to "text/turtle"
-  results defaults to "HTML" in a browser context and "Text" in a node context
-  rowHandler defaults to undefined
-*/
 let SparqlFiddle = function(){
     let self = this;
     this.setRdfType = function(type){ this.rdfType = type }
