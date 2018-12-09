@@ -92,7 +92,7 @@ let fiddle = {
 sf.run(fiddle).then( res =>{ console.log(res) }, err => console.log(err) )
 //
 //  output : hello world
-
+```
 ## Default Results Format
 
 If no "wanted" key is supplied, the results format will default to "HTML" 
