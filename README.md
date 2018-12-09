@@ -31,7 +31,8 @@ query or a URL pointing to such a string.
 The format for results is stored in the "wanted" key and may be one of "HTML",  "Text", "Array", "Hash", "Value"
 
 An example:
-      ```javascript
+
+```javascript
       const sf = require('sparql-fiddle') // or browser equivalent
       let fiddle = {
           data  : "http://example.com/myRDF",
