@@ -6,7 +6,7 @@
 <script>
     let sf = new SparqlFiddle()
     let sparqlExamples = {}
-    let fiddleLibrary="http://localhost/solid/sparql-fiddle/fiddles.ttl"
+    let fiddleLibrary="https://jeff-zucker.github.io/sparql-fiddle/fiddles.ttl"
     sf.loadLibrary(fiddleLibrary).then( results => {
         sparqlExamples = results
     }, err => console.log(err) )
