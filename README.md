@@ -1,15 +1,11 @@
 # sparql-fiddle
-a way to play with SPARQL and Solid
-
-This app and accompanying library lets you use the SPARQL 
-query language from either an online form or the command line.  
+## run SPARQL queries and stored procedures online or off
 
 The online app is fairly self-explanatory, so please take a look at it
-to see the general operation.  Below is an explanation of the library
-that can be used in other apps.
-
-These notes on using the library are preliminary. I would REALLY
-like to hear comments about the API and ontology I talk about below.
+to see the general operation.  () Below is an explanation of the library
+that can be used in other apps. These notes on using the library are 
+preliminary. I would REALLY like to hear comments about the API and 
+ontology I talk about below.
 
 ## Overview
 
@@ -36,17 +32,17 @@ The format for results is stored in the "wanted" key and may be one of "HTML",  
 
 An example:
 
-   const sf = require('sparql-fiddle') // or browser equivalent
-   let fiddle = {
-      data  : "http://example.com/myRDF",
-      query : "http://example.com/mySPARQL",
-     wanted : "HTML"
-   }
-   sf.run(fiddle).then( results => {
-       console.log(results)
-   }, err => console.log(err) )
-   // 
-   // output : an HTML table containing the results of the query
+      const sf = require('sparql-fiddle') // or browser equivalent
+      let fiddle = {
+          data  : "http://example.com/myRDF",
+          query : "http://example.com/mySPARQL",
+         wanted : "HTML"
+       }
+       sf.run(fiddle).then( results => {
+           console.log(results)
+       }, err => console.log(err) )
+       // 
+       // output : an HTML table containing the results of the query
 
 The HTML format shows an HTML table of results.  Text shows fields
 one per line with a space between records.  If neither of these
@@ -63,7 +59,7 @@ The "Array" format returns an array of hashes (associative arrays). Given
      {"name":"Reuben Sandwich","addOn":"dill pickle" }
   ]
 
-# Results as a Hash
+## Results as a Hash
 
 The Hash format returns a hash of hashes (associateve arrays). You need to
 specify a key before calling run().  If you specify fiddle.key="name" 
@@ -106,7 +102,6 @@ as a mime content-type.
 
     fiddle.dataType = "application/rdf+xml"
 
-
 ## Row Handlers
 
 If you wish to munge the data before the results are returned, 
@@ -137,33 +132,6 @@ usual in the first run and set data to be an empty string in the following
 runs.  In this case, the rdflib store object will be reused, thus avoiding
 unnessary fetching and parsing which was already accomplished in the first
 run.
-
-## A Dummy Endpoint and No-Ontology Prototyping
-
-The dummy endpoint URL <http://example.org/inMemory#> is used as the 
-subject of the fiddle and is what the SPARQL searches.  You will see
-it listed if you have a query that selects the main subject.
-
-While ontologies are necessary for sharing data, it is sometimes useful
-to do without them when prototyping.  The turtle declaration 
-"@prefix : <#>." allows us to use on-the-fly classes and properties
-that we can later tie to an ontology.  This library supports the 
-same thing on the SPARQL side.  With sparql-fiddle, the URL 
-<http://example.org/inMemory#> can be used to refer to a data store
-which exists only temporarily.  We can make up classes and properties
-in the Turtle and refer to those made up entities in the SPARQL.  For 
-example:
-
-    data  :  @prefix : <#>. <> a :SomeDarnThing; :someRelation "hello world".
-
-    query :  PREFIX : <http://example.org/inMemory#> 
-             SELECT ?msg WHERE {
-                ?x a :SomeDarnThing; :someRelation ?msg .
-             }
-
-This fiddle will work even though the classes and properties it uses exist
-nowhere else.  NOTE : in this case "example.org" should be used literally,
-do not replace it.
 
 ## An Ontology for shareable Fiddle Libraries
 
