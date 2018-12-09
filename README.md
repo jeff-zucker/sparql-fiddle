@@ -44,7 +44,7 @@ An example:
        }, err => console.log(err) )
        // 
        // output : an HTML table containing the results of the query
-
+```       
 The HTML format shows an HTML table of results.  Text shows fields
 one per line with a space between records.  If neither of these
 suits your purposes, you can ask for results as an Array or a Hash
@@ -55,11 +55,12 @@ and format or process them any way you'd like by iterating over the structure.
 The "Array" format returns an array of hashes (associative arrays). Given 
 "SELECT ?name ?addOn ...", the results would be something like
 
-      ```javascript
-      [ 
-         {"name":"Alu Gobi","addOn":"chutney" },
-         {"name":"Reuben Sandwich","addOn":"dill pickle" }
-      ]
+```javascript
+[ 
+     {"name":"Alu Gobi","addOn":"chutney" },
+     {"name":"Reuben Sandwich","addOn":"dill pickle" }
+]
+```
 
 ## Results as a Hash
 
