@@ -1,11 +1,7 @@
 # sparql-fiddle
 **run SPARQL queries and stored procedures online or off**
 
-The online app is fairly self-explanatory, so please take a look at it
-to see the general operation.  () Below is an explanation of the library
-that can be used in other apps. These notes on using the library are 
-preliminary. I would REALLY like to hear comments about the API and 
-ontology I talk about below.
+An <a href="https://jeff-zucker.github.io/sparql-fiddle/" target="_blank">online sparql-fiddle</a> app allows you to load from URL, create, or cut and paste RDF and SPARQL into a form and then run the query, edit and re-run. It is one example of an app created with this library. Please take a look at it to see the general operation.   Below is an explanation of the library that can be used in other apps. These notes are preliminary. I would REALLY like to hear comments about the API and ontology I talk about below.
 
 ## Overview
 
