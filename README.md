@@ -82,16 +82,16 @@ query that returns a single field in a single row.  If more than one row
 is retrieved, only the first will be examined.  If more than one field is
 retrieved, an arbitrary key will be returned.   Here's an example:
 
-      ```javascript
-      const sf = require('sparql-fiddle')
-      let fiddle = {
-          data:`@prefix : <http://schema.org/>. <> :name "hello world".`,
-         query:`PREFIX : <http://schema.org/> SELECT ?y WHERE {?x :name ?y .}`,
-        wanted:'Value'
-      }
-      sf.run(fiddle).then( res =>{ console.log(res) }, err => console.log(err) )
-      //
-      //  output : hello world
+```javascript
+const sf = require('sparql-fiddle')
+let fiddle = {
+      data:`@prefix : <http://schema.org/>. <> :name "hello world".`,
+      query:`PREFIX : <http://schema.org/> SELECT ?y WHERE {?x :name ?y .}`,
+      wanted:'Value'
+}
+sf.run(fiddle).then( res =>{ console.log(res) }, err => console.log(err) )
+//
+//  output : hello world
 
 ## Default Results Format
 
