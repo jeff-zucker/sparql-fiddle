@@ -44,7 +44,9 @@ let SparqlFiddle = function(){
         if(!fiddle.data){
               return resolve();
         }
-        let type = fiddle.dataType || "text/turtle"
+        let type = fiddle.dataType
+        if(typeof(document)!="undefined") type = self.rdfType
+        if(!type)  type = "text/turtle"
         let endpointUrl = "http://example.org/inMemory"
         try {
             $rdf.parse(
@@ -238,6 +240,16 @@ let SparqlFiddle = function(){
                 // replace the url with it's content
                 fiddle[type] = response.responseText
                 resolve( fiddle )
+            })
+        } catch(err) { reject(err) }
+      })
+    }
+    this.loadFromUrlPlain = function(url){
+      return new Promise((resolve, reject)=>{
+        let fetcher = new $rdf.fetcher( $rdf.graph() );
+        try {
+            fetcher.load(url).then( response => {
+                resolve( response.responseText )
             })
         } catch(err) { reject(err) }
       })

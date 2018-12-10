@@ -3,45 +3,6 @@
     <!-- need to fix ref to rdflib -->
     <script src="https://solid.github.io/releases/rdflib.js/rdflib-0.12.2.min.js"></script>
     <script src="./sparql-fiddle.js"></script>
-<script>
-    let sf = new SparqlFiddle()
-    let sparqlExamples = {}
-    let fiddleLibrary="https://jeff-zucker.github.io/sparql-fiddle/fiddles.ttl"
-    sf.loadLibrary(fiddleLibrary).then( results => {
-        sparqlExamples = results
-    }, err => console.log(err) )
-    let run = function(){
-        document.getElementById('results').innerHTML = ""
-        let endpointUrl = "http://example.org/inMemory"
-        let rdfStr = document.getElementById('turtle').value
-        let sparqlStr = document.getElementById('sparql').value
-        sparqlStr = sparqlStr.replace( 
-           /PREFIX\s*:\s*<#>/i,"PREFIX : <"+endpointUrl+"#>" 
-        )
-        let fiddle = {
-            data  : rdfStr,
-            query : sparqlStr,
-           wanted : "HTML"
-       
-        }
-        sf.run(fiddle).then( results => {
-            document.getElementById('results').innerHTML = results
-        }, err => console.log(err) )
-    }
-    load = function(type){
-        let url = document.getElementById(type+"Url").value
-        sf.loadFromUrl(url).then( response => {
-            document.getElementById(type).value=response.responseText
-        }, err =>  console.log(err) )
-    }
-    show_example = function(){
-        let id = document.getElementById("exampleSelect").value
-        if(!id || id.match(/examples/)) return;
-        document.getElementById("turtle").value=sparqlExamples[id].data
-        document.getElementById("sparql").value=sparqlExamples[id].query
-        document.getElementById("results").innerHTML=""
-    }
-</script>
 </head></body>
 <div id="top">
 <div id="top-left">
@@ -65,19 +26,19 @@
 </div> <!-- top -->
 <div id="left">
     <div class="heading">
-        <b>Endpoint</b> : enter RDF text or <input id="turtleUrl" placeholder="URL of a Solid RDF File"><button onclick="javascript:load('turtle')">import</button>
+        <b>Endpoint</b> : enter RDF text or <input id="dataUrl" placeholder="URL of a Solid RDF File"><button onclick="javascript:loadData()">import</button>
     </div>
-    <textarea id="turtle"></textarea>
+    <textarea id="data"></textarea>
 </div>
 <div id="right">
     <div class="heading">
-        <b>Query</b> : enter SPARQL text or <input id="sparqlUrl" placeholder="URL of a Solid SPARQL File"><button onclick="javascript:load('sparql')">import</button>
+        <b>Query</b> : enter SPARQL text or <input id="queryUrl" placeholder="URL of a Solid SPARQL File"><button onclick="javascript:loadQuery()">import</button>
     </div>
-    <textarea id="sparql"></textarea>
+    <textarea id="query"></textarea>
 </div>
     <pre id="results"></pre>
 <style>
-#turtleUrl, #sparqlUrl {
+#dataUrl, #queryUrl {
    width:22vw;
 }
 #top {
@@ -97,7 +58,7 @@
 #results {
     clear:both;
 }
-#turtle, #sparql {
+#data, #query {
     height:240px;
     max-height:45vw;
     width:640px;
@@ -136,3 +97,53 @@ th {
     margin-left:2em;
 }
 </style>
+<script>
+    let sf = new SparqlFiddle()
+    let sparqlExamples = {}
+    let fiddleLibrary = window.location.href
+    if(fiddleLibrary.match("index.html")) 
+        fiddleLibrary=fiddleLibrary.replace(/index.html/,"fiddles.ttl")
+    else 
+        fiddleLibrary += "fiddles.ttl"
+    sf.loadLibrary(fiddleLibrary).then( results => {
+        sparqlExamples = results
+    }, err => console.log(err) )
+    let run = function(){
+        document.getElementById('results').innerHTML = ""
+        let endpointUrl = "http://example.org/inMemory"
+        let rdfStr = document.getElementById('data').value
+        let sparqlStr = document.getElementById('query').value
+        sparqlStr = sparqlStr.replace( 
+           /PREFIX\s*:\s*<#>/i,"PREFIX : <"+endpointUrl+"#>" 
+        )
+        let fiddle = {
+            data  : rdfStr,
+            query : sparqlStr,
+           wanted : "HTML"
+       
+        }
+        sf.run(fiddle).then( results => {
+            document.getElementById('results').innerHTML = results
+        }, err => console.log(err) )
+    }
+    loadData = function(){
+        let url = document.getElementById("dataUrl").value
+        sf.loadFromUrlPlain(url).then( response => {
+            document.getElementById("data").value=response
+        }, err =>  console.log(err) )
+    }
+    loadQuery = function(){
+        let url = document.getElementById("queryUrl").value
+        sf.loadFromUrlPlain(url).then( response => {
+            document.getElementById("query").value=response
+        }, err =>  console.log(err) )
+    }
+    show_example = function(){
+        let id = document.getElementById("exampleSelect").value
+        if(!id || id.match(/examples/)) return;
+        document.getElementById("data").value=sparqlExamples[id].data
+        document.getElementById("query").value=sparqlExamples[id].query
+        document.getElementById("results").innerHTML=""
+    }
+</script>
+</body></html>
